@@ -22,3 +22,5 @@ order1 = PizzaOrder.new( {
 order1.save()
 
 p order1.get_customer()
+puts ""
+p customer1.get_pizza_orders()

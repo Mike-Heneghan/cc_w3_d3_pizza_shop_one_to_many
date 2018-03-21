@@ -44,6 +44,18 @@ def Customer.delete_all()
   result = SqlRunner.run(sql)
 end
 
+def get_pizza_orders()
+  sql = "
+  SELECT * FROM pizza_orders WHERE customer_id = $1
+  ;"
+
+  values = [@id]
+
+  results = SqlRunner.run(sql, values)
+  orders = results.map { |pizza| PizzaOrder.new(pizza)}
+  return orders
+end
+
 
 
 
