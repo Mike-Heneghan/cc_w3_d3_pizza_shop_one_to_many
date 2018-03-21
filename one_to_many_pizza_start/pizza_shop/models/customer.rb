@@ -34,7 +34,19 @@ def save()
   @id = result[0]['id'].to_i
 end
 
-def
+def Customer.delete_all()
+  db = PG.connect( { dbname: 'pizza_shop', host: 'localhost'})
+
+  sql = "
+  DELETE FROM customers
+  ;
+  "
+
+  db.prepare('delete_all', sql)
+  result = db.exec_prepared('delete_all')
+
+  db.close()
+end
 
 
 
