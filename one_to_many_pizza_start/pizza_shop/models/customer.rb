@@ -1,5 +1,6 @@
 require("pg")
 require("pry")
+require_relative("../db/sql_runner")
 
 class Customer
 
@@ -10,10 +11,15 @@ def initialize ( options )
   @name = options['name']
 end
 
+
+def self.all()
+  sql = "SELECT * FROM customers;"
+  customers = SqlRunner.run( sql )
+  return customers.map { |person| Customer.new(person)}
+end
+
+
 def save()
-
-  db = PG.connect( { dbname: 'pizza_shop', host: 'localhost' } )
-
   sql = "
   INSERT INTO customers
   (name)
@@ -23,29 +29,18 @@ def save()
   id
   ;
   "
-
   values = [@name]
-
-  db.prepare("save", sql)
-  result = db.exec_prepared("save", values)
-
-  db.close()
-
+  result = SqlRunner.run(sql, values)
   @id = result[0]['id'].to_i
 end
 
 def Customer.delete_all()
-  db = PG.connect( { dbname: 'pizza_shop', host: 'localhost'})
-
   sql = "
   DELETE FROM customers
   ;
   "
 
-  db.prepare('delete_all', sql)
-  result = db.exec_prepared('delete_all')
-
-  db.close()
+  result = SqlRunner.run(sql)
 end
 
 
