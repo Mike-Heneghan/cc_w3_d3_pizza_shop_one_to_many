@@ -1,4 +1,6 @@
 require('pg')
+require_relative('customer')
+require_relative("../db/sql_runner")
 
 class PizzaOrder
 
@@ -80,8 +82,24 @@ class PizzaOrder
     sql = "SELECT * FROM pizza_orders"
 
     orders = SqlRunner.run(sql)
-  
+
     return orders.map { |order| PizzaOrder.new(order) }
   end
+
+  def get_customer()
+
+    sql = "SELECT * FROM customers WHERE id = $1;"
+
+    values = [@customer_id]
+
+    result = SqlRunner.run(sql,values)
+    customer_data = result.first()
+    customer = Customer.new(customer_data)
+    return customer
+  end
+
+
+
+
 
 end

@@ -1,6 +1,7 @@
 require("pg")
 require("pry")
 require_relative("../db/sql_runner")
+require_relative("pizza_order")
 
 class Customer
 
