@@ -62,7 +62,7 @@ class PizzaOrder
 
   def self.find(id)
     db = PG.connect({ dbname: 'pizza_shop', host: 'localhost' })
-    sql = "SELECT * FROM pizza_orders WHERE id = #{id}"
+    sql = "SELECT * FROM pizza_orders WHERE id = $1"
     values = [id]
     db.prepare("find", sql)
     results = db.exec_prepared("find", values)
